@@ -17,6 +17,8 @@ Patsiendimonitori simulaator tervishoiuõppe simulatsioonideks. Instruktor muuda
 
 ## Kasutamine
 
+Kasutusjuhend on monitoris endas: nupp **Kasutusjuhend** on avalehel ja juhtpuldi alguses. Juhendi saab ka välja printida.
+
 Avalehel on kolm valikut:
 
 | Valik | Kuidas |

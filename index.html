@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-  Simulatsioonimonitor v2.1.1
+  Simulatsioonimonitor v2.2
   Autor ja looja: Ave Kõrve-Noorkõiv
   © 2026 Ave Kõrve-Noorkõiv.
   Litsents: Creative Commons Autorile viitamine-Mitteäriline 4.0 (CC BY-NC 4.0)
@@ -321,6 +321,36 @@ body.net-monitor #btnLang{display:none}
 }
 @media (pointer:coarse){ .waitcode{font-size:2.6rem} }
 .appver a{color:inherit}
+
+/* ---------- built-in user guide ---------- */
+.helpbtn{width:100%;margin-bottom:.6rem}
+.sthelp{display:block;margin:1.1rem 0 0;font-size:1rem;text-decoration:underline}
+.helpov{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.6);display:flex;justify-content:center;align-items:flex-start;padding:1.2rem 1rem;overflow:auto}
+.helpov[hidden]{display:none}
+.helpbox{width:min(820px,100%);background:var(--p-bg);color:var(--p-ink);border-radius:10px;box-shadow:0 12px 40px rgba(0,0,0,.5);font-family:var(--ui)}
+.helphead{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;gap:.8rem;padding:.8rem 1.1rem;background:var(--p-card);border-bottom:1px solid var(--p-line);border-radius:10px 10px 0 0}
+.helphead h1{margin:0;font-size:1.25rem}
+.helpbtns{display:flex;gap:.4rem}
+.helpbody{padding:.6rem 1.2rem 1.4rem;line-height:1.5;font-size:.95rem}
+.helpbody h2{font-size:1.08rem;margin:1.3rem 0 .45rem;padding-top:.6rem;border-top:1px solid var(--p-line)}
+.helpbody h3{font-size:.96rem;margin:.9rem 0 .3rem}
+.helpbody .hlead{font-size:1rem;margin:.6rem 0 0}
+.helpbody ol,.helpbody ul{padding-left:1.3rem;margin:.3rem 0}
+.helpbody li{margin:.2rem 0}
+.helpbody table{border-collapse:collapse;width:100%;margin:.4rem 0;font-size:.92rem}
+.helpbody th,.helpbody td{border:1px solid var(--p-line);padding:.4rem .55rem;text-align:left;vertical-align:top}
+.helpbody th{background:var(--p-chip)}
+.helpbody td:first-child{white-space:nowrap}
+.helpbody .hfoot{margin-top:1.4rem;font-size:.8rem;color:var(--p-sub)}
+@media (max-width:560px){ .helpbody td:first-child{white-space:normal} }
+@media print{
+  body.help-open > *:not(#helpOv){display:none!important}
+  body.help-open{background:#fff;overflow:visible;height:auto}
+  body.help-open .helpov{position:static;background:none;padding:0;display:block;overflow:visible}
+  body.help-open .helpbox{box-shadow:none;width:100%;background:#fff;color:#000}
+  body.help-open .helpbtns{display:none}
+  body.help-open .helphead{position:static;background:#fff}
+}
 </style>
 </head>
 <body>
@@ -427,6 +457,7 @@ body.net-monitor #btnLang{display:none}
       </div>
     </div>
     <p class="stnote" id="stFileNote" hidden data-t="stFile">Märkus: fail on avatud arvutist. Wifi-ühendus töötab ainult siis, kui monitor on avatud veebiaadressilt (GitHub Pages).</p>
+    <button class="stlink sthelp" id="stHelp" data-t="helpB">Kasutusjuhend</button>
     <p class="stfoot" id="stFoot"></p>
   </div>
 </div>
@@ -442,6 +473,16 @@ body.net-monitor #btnLang{display:none}
   </div>
 </div>
 
+<div class="helpov" id="helpOv" hidden role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+  <div class="helpbox">
+    <div class="helphead">
+      <h1 id="helpTitle" data-t="helpB">Kasutusjuhend</h1>
+      <div class="helpbtns"><button class="btn ghost" id="helpPrint" data-t="helpPrint">Prindi</button><button class="btn" id="helpClose" data-t="close">Sulge</button></div>
+    </div>
+    <div class="helpbody" id="helpBody"></div>
+  </div>
+</div>
+
 <aside id="panel" aria-label="Juhtpult" data-ta="pan" aria-hidden="true">
   <div class="phead">
     <h2 data-t="pan">Juhtpult</h2>
@@ -450,6 +491,7 @@ body.net-monitor #btnLang{display:none}
   </div>
   <div class="ministat" id="miniStat" aria-live="off"></div>
   <div class="pbody">
+    <button class="btn ghost helpbtn" id="btnHelp" data-t="helpB">Kasutusjuhend</button>
     <div class="trainnote" data-t="disc2">Õppevahend simulatsiooniks. Ei ole meditsiiniseade ega mõeldud kliiniliseks kasutamiseks.</div>
     <div class="sec">
       <h3>Keel / Language</h3>
@@ -548,7 +590,7 @@ body.net-monitor #btnLang{display:none}
 (function(){
 "use strict";
 /* Simulatsioonimonitor · autor ja looja: Ave Kõrve-Noorkõiv · © 2026 Ave Kõrve-Noorkõiv */
-const APP = Object.freeze({name:"Simulatsioonimonitor", version:"2.1.1", license:"CC BY-NC 4.0", author:"Ave Kõrve-Noorkõiv", year:2026, purpose:"Ainult õppeotstarbeks, mitte kliiniliseks kasutamiseks"});
+const APP = Object.freeze({name:"Simulatsioonimonitor", version:"2.2", license:"CC BY-NC 4.0", author:"Ave Kõrve-Noorkõiv", year:2026, purpose:"Ainult õppeotstarbeks, mitte kliiniliseks kasutamiseks"});
 try{ document.documentElement.dataset.author = APP.author; console.info(APP.name + " v" + APP.version + " · © " + APP.year + " " + APP.author + " · " + APP.license + " · " + APP.purpose); }catch(e){}
 /* ================= state ================= */
 const STORE = "simmon-v2-state", CHAN = "simmon-v2", NETSTORE = "simmon-v2-net";
@@ -660,7 +702,7 @@ const EN = {
   stB:"Monitor waiting screen", stBt:"This device is the patient monitor (tablet, TV, computer). Enter the code shown in the controls or scan the QR code with the camera.", stBb:"Open waiting screen",
   stC:"One computer + projector", stCt:"Monitor and controls on the same computer. Also works without internet.", stCb:"Open monitor",
   stFile:"Note: the file is opened from the computer. The Wi-Fi connection works only when the monitor is opened from its web address (GitHub Pages).",
-  licL:"Licence: CC BY-NC 4.0 (non-commercial use)",
+  licL:"Licence: CC BY-NC 4.0 (non-commercial use)", helpB:"User guide", helpPrint:"Print",
   waitT:"Enter the 6-digit code shown in the controls.", waitB:"Connect", waitQ:"Alternatively, scan the QR code in the controls with this device’s camera.", back:"← Back"
 };
 const ET = {};
@@ -1447,11 +1489,12 @@ $("btnMetro").addEventListener("click", metroToggle);
 $("btnMetroPanel").addEventListener("click", metroToggle);
 document.addEventListener("keydown", e=>{
   if(e.target.tagName==="INPUT") return;
+  if(!$("helpOv").hidden && e.key !== "Escape") return;
   const k = e.key.toLowerCase();
   if(k==="k") setPanel(!panel.classList.contains("open"));
   if(k==="m") metroToggle();
   if(k==="d") toggleDefib();
-  if(e.key==="Escape") setPanel(false);
+  if(e.key==="Escape"){ if(!$("helpOv").hidden) closeHelp(); else setPanel(false); }
 });
 
 /* defib controls on the monitor */
@@ -1802,6 +1845,19 @@ function waitGo(){ const c = $("waitCode").value.replace(/\D/g,""); if(c.length 
 $("waitGo").addEventListener("click", waitGo);
 $("waitCode").addEventListener("keydown", e=>{ if(e.key === "Enter") waitGo(); });
 $("stFileNote").hidden = location.protocol !== "file:";
+
+/* ================= built-in user guide ================= */
+const HELP = {et:"<p class=\"hlead\">Simulatsioonimonitor näitab õppijatele patsiendimonitori. Instruktor muudab näitajaid juhtpuldist reaalajas. <b>Ainult õppeotstarbeks, mitte kliiniliseks kasutamiseks.</b></p>\n<h2>1. Alustamine</h2>\n<table><thead><tr><th>Avalehe valik</th><th>Millal kasutada</th></tr></thead><tbody>\n<tr><td><b>Üks arvuti + projektor</b></td><td>Monitor ja juhtpult samas arvutis. Töötab ka ilma internetita.</td></tr>\n<tr><td><b>Alusta uut sessiooni</b></td><td>Juhtpult on selles seadmes (arvuti või telefon), monitor on teises seadmes.</td></tr>\n<tr><td><b>Monitori ooteekraan</b></td><td>See seade on monitor (tahvel, teler). Sisesta juhtpuldi kood või skanni QR-kood.</td></tr>\n</tbody></table>\n<h3>Projektoriga</h3>\n<ol><li>Laienda ekraan: Windowsis <b>Win + P → Laienda</b>, Macis <b>Süsteemiseaded → Kuvad → Laiendatud kuva</b>.</li>\n<li>Vali <b>Üks arvuti + projektor</b>, seejärel <b>Juhtpult → Ava instruktori aken</b>.</li>\n<li>Lohista monitori aken projektorile ja vajuta seal <b>Täisekraan</b> ja <b>Heli</b>.</li>\n<li>Roheline täpp juhtpuldis tähendab, et aknad on ühendatud.</li></ol>\n<h3>Wifi kaudu</h3>\n<ol><li>Instruktori seadmes: <b>Alusta uut sessiooni → Loo sessioon</b>. Ekraanile tuleb 6-kohaline kood ja QR-kood.</li>\n<li>Monitori seadmes: <b>Monitori ooteekraan</b> → sisesta kood → <b>Ühenda</b>. Teine võimalus: skanni QR-kood kaameraga.</li>\n<li>Puuduta monitoris <b>Puuduta alustamiseks</b>. See lülitab sisse heli ja täisekraani.</li></ol>\n<p>Mõlemad seadmed vajavad internetti. Kui ühendus ei tööta, kasuta telefoni levi või projektoriga varianti.</p>\n<h2>2. Juhtpult</h2>\n<ul><li><b>Valmisstsenaariumid</b> muudavad kõik näidud korraga.</li>\n<li><b>Muutuse kestus</b> (kohe … 2 min) määrab, kui kiiresti näidud sihini liiguvad. Vali see enne muutmist.</li>\n<li><b>Rütm</b>: siinus, kodade virvendus, VT, VF, asüstoolia, PEA. PEA korral alarmi ei tule, sest see on teadlik õpikoht.</li>\n<li><b>Näidud</b>: liugur või − / +. Lülitiga saab anduri lahti ühendada (nt SpO₂ andur puudub).</li>\n<li><b>Mõõda vererõhk (NIBP)</b>: mõõtmine kestab umbes 7 s. Enne seda näitab monitor „mõõtmata“.</li>\n<li><b>Seaded</b>: EtCO₂ ühik (kPa / mmHg), NIBP režiim, logod, patsiendi silt.</li>\n<li><b>Sündmuste logi</b> salvestab šokid, rütmimuutused ja stsenaariumid koos kellaajaga järelarutelu jaoks.</li></ul>\n<h2>3. Defibrillaator</h2>\n<p>Ava nupuga <b>Defi</b> (klahv D). Enne šokki vali juhtpuldis <b>Šoki tulemus</b>: milline rütm tekib pärast šokki.</p>\n<table><tbody>\n<tr><td><b>AED</b></td><td>Elektroodid on peal → analüüs → šokk soovitatud või mitte → vilkuv <b>ŠOKK</b> → CPR 2 min koos metronoomiga → uus analüüs.</td></tr>\n<tr><td><b>Manuaalne</b></td><td>Vali energia → <b>LAADI</b> → <b>ŠOKK</b>. <b>TÜHJENDA</b> tühistab laengu.</td></tr>\n<tr><td><b>Kardioversioon</b></td><td>Manuaalses režiimis <b>SYNC</b>: R-sakkide kohal on märgid ja šokk antakse järgmise R-sakiga. VF-is šokki ei anta.</td></tr>\n<tr><td><b>Stimulatsioon</b></td><td>Sagedus ja vool (mA) → <b>STIMULATSIOON</b>. Haaramise lävi on juhtpuldis.</td></tr>\n</tbody></table>\n<h2>4. Metronoom ja klahvid</h2>\n<p><b>Metronoom</b> (klahv M) annab CPR-i tempo 100–120/min ja annab iga 2 minuti järel märku rütmikontrolliks.</p>\n<table><tbody>\n<tr><td><b>K</b></td><td>Ava või sulge juhtpult</td></tr><tr><td><b>D</b></td><td>Defibrillaator</td></tr>\n<tr><td><b>M</b></td><td>Metronoom</td></tr><tr><td><b>Esc</b></td><td>Sulge aken</td></tr></tbody></table>\n<h2>5. Kui midagi ei tööta</h2>\n<table><tbody>\n<tr><td>Heli ei kosta</td><td>Vajuta <b>monitori</b> aknas nuppu <b>Heli</b>. Instruktori aknast heli ei tule.</td></tr>\n<tr><td>Teler näitab sama pilti</td><td>Vali <b>Laienda</b>, mitte „Dubleeri“ või „Peegelda“.</td></tr>\n<tr><td>Aken ei avane</td><td>Luba brauseris hüpikaknad.</td></tr>\n<tr><td>Wifi ei ühendu</td><td>Mõlemas seadmes peab olema internet ja monitor avatud veebiaadressilt. Proovi telefoni levi.</td></tr>\n<tr><td>Vana versioon</td><td>Värskenda lehte jõuga: Windowsis <b>Ctrl + F5</b>, Macis <b>Cmd + Shift + R</b>.</td></tr>\n</tbody></table>", en:"<p class=\"hlead\">The simulation monitor shows learners a patient monitor. The instructor changes the values from the controls in real time. <b>For training only, not for clinical use.</b></p>\n<h2>1. Getting started</h2>\n<table><thead><tr><th>Start screen option</th><th>When to use</th></tr></thead><tbody>\n<tr><td><b>One computer + projector</b></td><td>Monitor and controls on the same computer. Also works without internet.</td></tr>\n<tr><td><b>Start a new session</b></td><td>Controls on this device (computer or phone), monitor on another device.</td></tr>\n<tr><td><b>Monitor waiting screen</b></td><td>This device is the monitor (tablet, TV). Enter the code from the controls or scan the QR code.</td></tr>\n</tbody></table>\n<h3>With a projector</h3>\n<ol><li>Extend the display: Windows <b>Win + P → Extend</b>, Mac <b>System Settings → Displays → Extended display</b>.</li>\n<li>Choose <b>One computer + projector</b>, then <b>Controls → Open instructor window</b>.</li>\n<li>Drag the monitor window to the projector and press <b>Fullscreen</b> and <b>Sound</b> there.</li>\n<li>A green dot in the controls means the windows are connected.</li></ol>\n<h3>Over Wi-Fi</h3>\n<ol><li>On the instructor device: <b>Start a new session → Create session</b>. A 6-digit code and a QR code appear.</li>\n<li>On the monitor device: <b>Monitor waiting screen</b> → enter the code → <b>Connect</b>, or scan the QR code with the camera.</li>\n<li>Tap <b>Tap to start</b> on the monitor to turn on sound and fullscreen.</li></ol>\n<p>Both devices need internet. If the connection fails, use a phone hotspot or the projector option.</p>\n<h2>2. Controls</h2>\n<ul><li><b>Preset scenarios</b> change all values at once.</li>\n<li><b>Change duration</b> (now … 2 min) sets how fast values move to the target. Choose it before changing.</li>\n<li><b>Rhythm</b>: sinus, atrial fibrillation, VT, VF, asystole, PEA. PEA gives no alarm, as a deliberate learning point.</li>\n<li><b>Vital signs</b>: slider or − / +. The switch disconnects a sensor (e.g. no SpO₂ probe).</li>\n<li><b>Measure blood pressure (NIBP)</b>: takes about 7 s. Until then the monitor shows “not measured”.</li>\n<li><b>Settings</b>: EtCO₂ unit (kPa / mmHg), NIBP mode, logos, patient label.</li>\n<li><b>Event log</b> records shocks, rhythm changes and scenarios with times for the debriefing.</li></ul>\n<h2>3. Defibrillator</h2>\n<p>Open with <b>Defib</b> (key D). Before a shock, choose the <b>Shock outcome</b> in the controls: the rhythm that follows the shock.</p>\n<table><tbody>\n<tr><td><b>AED</b></td><td>Pads attached → analysis → shock advised or not → flashing <b>SHOCK</b> → CPR 2 min with metronome → new analysis.</td></tr>\n<tr><td><b>Manual</b></td><td>Select energy → <b>CHARGE</b> → <b>SHOCK</b>. <b>DISARM</b> cancels the charge.</td></tr>\n<tr><td><b>Cardioversion</b></td><td><b>SYNC</b> in manual mode: R waves are marked and the shock is delivered on the next R wave. No shock in VF.</td></tr>\n<tr><td><b>Pacing</b></td><td>Rate and current (mA) → <b>PACING</b>. The capture threshold is set in the controls.</td></tr>\n</tbody></table>\n<h2>4. Metronome and keys</h2>\n<p>The <b>metronome</b> (key M) gives a CPR rate of 100–120/min and a rhythm-check cue every 2 minutes.</p>\n<table><tbody>\n<tr><td><b>K</b></td><td>Open or close the controls</td></tr><tr><td><b>D</b></td><td>Defibrillator</td></tr>\n<tr><td><b>M</b></td><td>Metronome</td></tr><tr><td><b>Esc</b></td><td>Close window</td></tr></tbody></table>\n<h2>5. Troubleshooting</h2>\n<table><tbody>\n<tr><td>No sound</td><td>Press <b>Sound</b> in the <b>monitor</b> window. The instructor window is silent.</td></tr>\n<tr><td>TV shows the same picture</td><td>Choose <b>Extend</b>, not “Duplicate” or “Mirror”.</td></tr>\n<tr><td>Window does not open</td><td>Allow pop-ups in the browser.</td></tr>\n<tr><td>Wi-Fi does not connect</td><td>Both devices need internet and the monitor must be opened from its web address. Try a phone hotspot.</td></tr>\n<tr><td>Old version</td><td>Hard refresh: Windows <b>Ctrl + F5</b>, Mac <b>Cmd + Shift + R</b>.</td></tr>\n</tbody></table>"};
+function openHelp(){
+  $("helpBody").innerHTML = HELP[S.lang] + '<p class="hfoot">' + APP.name + " v" + APP.version + " · © " + APP.year + " " + APP.author + " · " + APP.license + "</p>";
+  $("helpOv").hidden = false; document.body.classList.add("help-open"); $("helpClose").focus();
+}
+function closeHelp(){ $("helpOv").hidden = true; document.body.classList.remove("help-open"); }
+$("btnHelp").addEventListener("click", openHelp);
+$("stHelp").addEventListener("click", openHelp);
+$("helpClose").addEventListener("click", closeHelp);
+$("helpPrint").addEventListener("click", ()=>window.print());
+$("helpOv").addEventListener("click", e=>{ if(e.target === $("helpOv")) closeHelp(); });
 
 /* ================= start ================= */
 { const av = document.getElementById("appVer"); av.textContent = APP.name + " v" + APP.version; av.title = "© " + APP.year + " " + APP.author + " · " + APP.license; }
