@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-  Simulatsioonimonitor v2.4.2
+  Simulatsioonimonitor v2.4.3
   Autor ja looja: Ave Kõrve-Noorkõiv
   © 2026 Ave Kõrve-Noorkõiv.
   Litsents: Creative Commons Autorile viitamine-Mitteäriline 4.0 (CC BY-NC 4.0)
@@ -274,7 +274,7 @@ body.net-monitor #btnPanel,body.net-monitor #panel{display:none}
   .dstep{width:3rem;height:3.2rem}
   .closebtn{padding:.6rem .9rem}
 }
-@media (max-width:1180px){
+@media (max-width:1500px){
   .topbar{flex-wrap:wrap;row-gap:.35rem}
   .alarmbar{order:3;flex-basis:100%}
   .tools{margin-left:auto}
@@ -679,7 +679,7 @@ body.ctrl-only .tools{margin-left:auto}
 (function(){
 "use strict";
 /* Simulatsioonimonitor · autor ja looja: Ave Kõrve-Noorkõiv · © 2026 Ave Kõrve-Noorkõiv */
-const APP = Object.freeze({name:"Simulatsioonimonitor", version:"2.4.2", license:"CC BY-NC 4.0", author:"Ave Kõrve-Noorkõiv", year:2026, purpose:"Ainult õppeotstarbeks, mitte kliiniliseks kasutamiseks"});
+const APP = Object.freeze({name:"Simulatsioonimonitor", version:"2.4.3", license:"CC BY-NC 4.0", author:"Ave Kõrve-Noorkõiv", year:2026, purpose:"Ainult õppeotstarbeks, mitte kliiniliseks kasutamiseks"});
 try{ document.documentElement.dataset.author = APP.author; console.info(APP.name + " v" + APP.version + " · © " + APP.year + " " + APP.author + " · " + APP.license + " · " + APP.purpose); }catch(e){}
 /* ================= state ================= */
 const LANGS = ["et","en","de","es","fr"];
