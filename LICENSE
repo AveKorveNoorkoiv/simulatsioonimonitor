@@ -1,0 +1,23 @@
+Simulatsioonimonitor
+Copyright (c) 2026 Ave Kõrve-Noorkõiv
+
+This work is licensed under the Creative Commons Attribution-NonCommercial 4.0
+International License (CC BY-NC 4.0).
+
+Käesolev teos on litsentsitud Creative Commonsi litsentsiga
+Autorile viitamine-Mitteäriline 4.0 rahvusvaheline (CC BY-NC 4.0).
+
+Summary / Kokkuvõte:   https://creativecommons.org/licenses/by-nc/4.0/deed.et
+Legal code / Õigustekst: https://creativecommons.org/licenses/by-nc/4.0/legalcode
+
+You are free to share and adapt this work for non-commercial purposes,
+provided you give appropriate credit ("Simulatsioonimonitor, autor
+Ave Kõrve-Noorkõiv"), link to the licence and indicate if changes were made.
+For commercial use, ask the author for permission.
+
+Exclusions: the logos included in the work belong to their respective
+institutions and are not covered by this licence. Third-party libraries
+loaded at run time (PeerJS, qrcode-generator) are under their own MIT licences.
+
+Disclaimer: training tool for simulation only. Not a medical device and not
+intended for clinical use. Provided "as is", without warranty of any kind.
