@@ -13,7 +13,7 @@ Patsiendimonitori simulaator tervishoiuõppe simulatsioonideks. Instruktor muuda
 - Alarmid ja helid, valmisstsenaariumid, CPR-metronoom
 - Defibrillaator: AED, manuaalne laadimine ja šokk, sünkroonne kardioversioon (SYNC), väline stimulatsioon
 - Sündmuste logi järelaruteluks
-- Eesti ja inglise keel
+- Viis keelt: eesti, inglise, saksa, hispaania ja prantsuse (ka sisseehitatud kasutusjuhend)
 
 ## Kasutamine
 
